@@ -5,6 +5,7 @@ import ModalPopUp from '../Modal/Modal';
 import SelectBox from '../SelectBox/SelectBox';
 import FooterPage from '../FooterPage/FooterPage';
 import { getList } from '../../api/requirements';
+import moment from 'moment';
 
 const HomePage = (props) => {
 
@@ -14,14 +15,14 @@ const HomePage = (props) => {
     const [store, setStore] = useState("need");
     const [currentStates, setCurrentState] = useState();
     const [getListing, setListing] = useState([]);
-    const [noData, setNoData] = useState(false);
+    const [noData, setNoData] = useState(false)
 
     function submit() {
         getList(getCity, require).subscribe((res) => {
           if (res) {
             if (res.data && res.data.length === 0) {
                 return setNoData(true);
-            }
+            }           
             setListing(res.data);
             setNoData(false);
           };
@@ -145,7 +146,9 @@ const HomePage = (props) => {
                     <div> <img src="phone.png" alt="img" />{list.number}</div>
                     <div> <img src="category.png" alt="img" />{list.category}</div>
                     <div> <img src="age.png" alt="img" />{list.age}</div>
-                    <div> <img src="verify.png" alt="img" />{list.last}</div>
+                    <div> <img src="verify.png" alt="img" /> 
+                    { moment(list.last).add('350, minutes').format('YYYY-MMM-DD h:mm A') }
+                    </div>
                   </li>
                 ))}
             </ul>
