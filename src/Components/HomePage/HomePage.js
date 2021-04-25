@@ -1,23 +1,36 @@
 /* eslint-disable react/style-prop-object */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './HomePage.css';
 import ModalPopUp from '../Modal/Modal';
+import SelectBox from '../SelectBox/SelectBox';
+import FooterPage from '../FooterPage/FooterPage';
+import { getList } from '../../api/requirements';
 
 const HomePage = (props) => {
 
     const [getCity, setCity] = useState();
     const [require, setRequire] = useState();
     const [modal, setModal] = useState(false);
+    const [store, setStore] = useState("need");
+    const [getListing, setListing] = useState([]);
+
+    useEffect(() => {
+        getList(getCity, require).subscribe((res) => {
+          if (res) {
+            setListing(res.data);
+          }
+        })
+    }, [getCity, require]);
 
     const city = [
         {
-            name: "Ludhiana",
+            name: "ludhiana",
             id : 1
         },{
-            name: "Amritsar",
+            name: "amritsar",
             id : 2
         },{
-            name: "Patiala",
+            name: "patiala",
             id : 3
         },{
             name: "Pathankot",
@@ -36,7 +49,7 @@ const HomePage = (props) => {
 
     const Needs = [
         {
-            name: "Oxygen",
+            name: "oxygen",
             id : 1
         },{
             name: "Beds",
@@ -53,16 +66,39 @@ const HomePage = (props) => {
         },{
             name: "ICU Beds",
             id : 6
+        },{
+            name: "Plasma",
+            id : 7
+        },{
+            name: "Money",
+            id : 8
         }
     ];
 
+    const currentState = [
+      {
+          name: 'Punjab'
+      }
+    ];
 
-
-    console.log("getCity", getCity, require);
+    console.log("getCity", getListing);
 
     return (
         <>
-        {modal ? <ModalPopUp close={() => setModal(false)} /> : null}
+        {modal ? (
+          <ModalPopUp
+            close={() => setModal(false)}
+            setState={store === 'need' ? setRequire : setCity}
+            state={store === 'need' ? Needs : city}
+            Need={Needs}
+            currentState = {currentState}
+            currentCity = {city}
+            setCurrentState = {setCity}
+            text={'Select Your Needs'}
+            heading={store === 'supply' ? 'Please Add Resources which you have' : 'Please give your requirements which you have needs'}
+            store={store}
+          />
+        ) : null}
         <div className="components">
             <h2 className="heading">Lets Fight With Covid 19</h2>
 
@@ -72,27 +108,35 @@ const HomePage = (props) => {
                 <div className="description">Let us all come together in this fight against COVID-19</div>
 
                 <div className="sub-details2">
-                    <button type="button" onClick={() => setModal(true)}>Add Resource</button>
-                    <button type="button" onClick={() => setModal(true)}>Leave Your Requirements</button>
+                    <button type="button" onClick={() => { setModal(true); setStore('supply') }}>Add Resource</button>
+                    <button type="button" onClick={() => { setModal(true); setStore('need') }}>Leave Your Requirements</button>
                 </div>
                 
-                <div className="select_city">Please Select Your City</div>
-                <select className="cityName" onChange={(e) => setCity(e.target.value)}>
-                    <option> Select Your City </option>
-                    {city.map((cities, index) => (
-                        <option value={cities.name}> {cities.name} </option>
-                    ))}
-                </select>
-
-                <div className="select_city">Please Choose Your Needs</div>
-                <select className="cityName" onChange={(e) => setRequire(e.target.value)}>
-                    <option> Select Your Needs </option>
-                    {Needs.map((need, index) => (
-                        <option value={need.name}> {need.name} </option>
-                    ))}
-                </select>
+                <div className="sub-details3">
+                  <div className="select_city">Please Select Your City</div>
+                  <SelectBox setState={setCity} state={city} text={'Select Your City'} />
+                </div>
+                <div className="sub-details3">
+                  <div className="select_city">Please Choose Your Needs</div>
+                  <SelectBox setState={setRequire} state={Needs} text={'Select Your Needs'} />
+                </div>
             </div>
+
+            <ul className="sub-details4">
+                {getListing && getListing.map((list) => (
+                  <li className="card-list">
+                    <div>{list.name}</div>
+                    <div>{list.city}</div>
+                    <div>{list.state}</div>
+                    <div>{list.number}</div>
+                    <div>{list.category}</div>
+                    <div>{list.age}</div>
+                  </li>
+                ))}
+            </ul>
         </div>
+
+        <FooterPage />
         </>
     )
 }

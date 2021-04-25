@@ -1,0 +1,17 @@
+.MainComponent-FP {
+  background-color: #071C2C;
+  position: sticky;
+  z-index: 1;
+  color: #ffffff;
+  width: 100%;
+}
+
+.gridContainer-FP {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 1rem 2rem;
+}
+
+.helpline-FP {
+  text-align: right;
+}
