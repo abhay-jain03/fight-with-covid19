@@ -1,0 +1,51 @@
+.modalComponent {
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0.8;
+  overflow: hidden;
+}
+
+.modalSubComponent {
+  position: fixed;
+  width: 80%;
+  min-height: 50%;
+  max-height: 80%;
+  z-index: 6;
+  background-color: #ffffff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.modalArea {
+  padding: 2rem;
+}
+
+.gridArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.gridArea > input {
+  width: 100%;
+  height: 4rem;
+  outline: none;
+}
+
+.gridArea > textarea {
+  height: 6rem;
+  outline: none;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  resize: none;
+}

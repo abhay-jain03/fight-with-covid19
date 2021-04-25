@@ -4,7 +4,6 @@ import {
   Switch,
   BrowserRouter as Router,
   Redirect,
-  Link,
 } from "react-router-dom";
 
 const Homepage = lazy(() => import("./Components/HomePage/HomePage"));
