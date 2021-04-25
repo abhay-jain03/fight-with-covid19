@@ -12,15 +12,21 @@ const HomePage = (props) => {
     const [require, setRequire] = useState();
     const [modal, setModal] = useState(false);
     const [store, setStore] = useState("need");
+    const [currentStates, setCurrentState] = useState();
     const [getListing, setListing] = useState([]);
+    const [noData, setNoData] = useState(false);
 
-    useEffect(() => {
+    function submit() {
         getList(getCity, require).subscribe((res) => {
           if (res) {
+            if (res.data && res.data.length === 0) {
+                return setNoData(true);
+            }
             setListing(res.data);
-          }
-        })
-    }, [getCity, require]);
+            setNoData(false);
+          };
+        });
+    }
 
     const city = [
         {
@@ -113,6 +119,10 @@ const HomePage = (props) => {
                 </div>
                 
                 <div className="sub-details3">
+                  <div className="select_city">Please Select Your State</div>
+                  <SelectBox setState={setCurrentState} state={currentState} text={'Select Your State'} />
+                </div>
+                <div className="sub-details3">
                   <div className="select_city">Please Select Your City</div>
                   <SelectBox setState={setCity} state={city} text={'Select Your City'} />
                 </div>
@@ -120,20 +130,26 @@ const HomePage = (props) => {
                   <div className="select_city">Please Choose Your Needs</div>
                   <SelectBox setState={setRequire} state={Needs} text={'Select Your Needs'} />
                 </div>
+
+                <button type="submit" className="submit-HP" onClick={() => submit()}>Submit</button>
             </div>
 
             <ul className="sub-details4">
                 {getListing && getListing.map((list) => (
                   <li className="card-list">
-                    <div>{list.name}</div>
-                    <div>{list.city}</div>
-                    <div>{list.state}</div>
-                    <div>{list.number}</div>
-                    <div>{list.category}</div>
-                    <div>{list.age}</div>
+                    <div>
+                        <img src="name.png" alt="img" />
+                        {list.name}</div>
+                    <div> <img src="state.png" alt="img" />{list.state}</div>
+                    <div> <img src="city1.png" alt="img" /> {list.city}</div>
+                    <div> <img src="phone.png" alt="img" />{list.number}</div>
+                    <div> <img src="category.png" alt="img" />{list.category}</div>
+                    <div> <img src="age.png" alt="img" />{list.age}</div>
+                    <div> <img src="verify.png" alt="img" />{list.last}</div>
                   </li>
                 ))}
             </ul>
+            {noData ? <p className="lastHeading">Sorry to inform you, No results found. Please leave your requirement, we will let you know as soon as we get a match. </p> : null}
         </div>
 
         <FooterPage />
