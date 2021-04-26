@@ -103,7 +103,7 @@ const HomePage = (props) => {
                     currentCity={citiesForState}
                     setCurrentState={setCity}
                     text={'Select Your Needs'}
-                    heading={store === 'supply' ? 'Please Add Resources which you have' : 'Please give your requirements which you have needs'}
+                    heading={store === 'supply' ? 'Please Add Resources which you have' : 'Please give your requirements which you need'}
                     store={store}
                     toast={toast}
                 />
