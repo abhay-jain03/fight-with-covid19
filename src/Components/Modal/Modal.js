@@ -109,6 +109,7 @@ const Modal = (props) => {
   return (
     <>
       <div className="modalComponent" onClick={() => close()} ></div>
+      <img src="cross.png" alt="cross" className="closeButton" onClick={() => close()} />
       <div className="modalSubComponent">
         <div className="modalArea">
           <h2>{heading}</h2>

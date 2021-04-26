@@ -48,6 +48,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   resize: none;
+  margin-top: 2px;
 }
 
 .gridAreaBox {
@@ -65,4 +66,21 @@
   outline: none;
   cursor: pointer;
   border-color: #f6f6f6;
+}
+
+.closeButton {
+  color: #ffffff;
+  font-weight: 700;
+  position: fixed;
+  z-index: 6;
+  top: 1.5rem;
+  right: 4rem;
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+
+@media (max-width: 1023px) {
+  .closeButton {
+    right: 1rem;
+  }
 }
