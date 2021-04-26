@@ -81,8 +81,9 @@ const HomePage = (props) => {
     }
 
     function setState(e){
-        setCity(null)
+        setCity("")
         setCurrentState(e)
+
     }
     const Needs = [
         {
@@ -153,11 +154,11 @@ const HomePage = (props) => {
                     <div className="list-container">
                         <div className="sub-details3">
                             {/* <div className="select_city">Please Select Your State</div> */}
-                            <SelectBox setState={setState} isArray={true} state={state} text={'Select Your State'} />
+                            <SelectBox setState={setState} value={currentState} isArray={true} state={state} text={'Select Your State'} />
                         </div>
                         <div className="sub-details3">
                             {/* <div className="select_city">Please Select Your City</div> */}
-                            <SelectBox setState={setCity} isArray={true} state={city} text={'Select Your City'} />
+                            <SelectBox setState={setCity} value={getCity} isArray={true} state={city} text={'Select Your City'} />
                         </div>
                         <div className="sub-details3">
                             {/* <div className="select_city">Please Choose Your Needs</div> */}

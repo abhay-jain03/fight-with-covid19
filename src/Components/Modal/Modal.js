@@ -119,8 +119,8 @@ const Modal = (props) => {
           <div className="gridArea">
             {/* <input type="text" placeholder="Enter Your State*" name="state" onChange={(e) => handleChange(e)} />
               <input type="text" placeholder="Enter Your City*" name="city" onChange={(e) => handleChange(e)} /> */}
-            <SelectBox setState={setCurrentState} isArray={true} state={currentState} text={"State"} cssClass={"gridAreaBox"} name="state" onChange={handleChange} />
-            <SelectBox setState={setCurrentState} isArray={true} state={currentCity(formInputs.state)} text={"City"} cssClass={"gridAreaBox"} name="city" onChange={handleChange} />
+            <SelectBox setState={setCurrentState} value={formInputs.state} isArray={true} state={currentState} text={"State"} cssClass={"gridAreaBox"} name="state" onChange={handleChange} />
+            <SelectBox setState={setCurrentState} value={formInputs.city} isArray={true} state={currentCity(formInputs.state)} text={"City"} cssClass={"gridAreaBox"} name="city" onChange={handleChange} />
           </div>
           <div className="gridArea">
             <PhoneInput
