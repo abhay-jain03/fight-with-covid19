@@ -80,6 +80,10 @@ const HomePage = (props) => {
         });
     }
 
+    function setState(e){
+        setCity(null)
+        setCurrentState(e)
+    }
     const Needs = [
         {
             name: "oxygen",
@@ -149,7 +153,7 @@ const HomePage = (props) => {
                     <div className="list-container">
                         <div className="sub-details3">
                             {/* <div className="select_city">Please Select Your State</div> */}
-                            <SelectBox setState={setCurrentState} isArray={true} state={state} text={'Select Your State'} />
+                            <SelectBox setState={setState} isArray={true} state={state} text={'Select Your State'} />
                         </div>
                         <div className="sub-details3">
                             {/* <div className="select_city">Please Select Your City</div> */}
@@ -162,8 +166,8 @@ const HomePage = (props) => {
 
                     </div>
                     <div>
-                    <button type="submit" className="submit-HP" onClick={() => help()}>Help SomeOne</button>
-                    <button type="submit" className="submit-HP" onClick={() => submit()}>Submit</button>
+                    <button type="submit" className="submit-HP" onClick={() => help()}>Help Someone</button>
+                    <button type="submit" className="submit-HP" onClick={() => submit()}>Search Resources</button>
                     </div>
                 </div>
 
