@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import './Modal.css';
 import { addNeeds, addSupply } from '../../api/requirements';
 import SelectBox from '../SelectBox/SelectBox';
+import PhoneInput from 'react-phone-number-input/input'
+import {isValidPhoneNumber, isPossiblePhoneNumber} from 'react-phone-number-input'
 
 const Modal = (props) => {
-  const { close, setState, state, text, heading, store, currentState, currentCity, setCurrentState, Need } = props;
+  const { close, setState, state, text, toast, heading, store, currentState, currentCity, setCurrentState, Need } = props;
   const [formInputs, setFormInputs] = useState({
     name: '',
     age: '',
@@ -14,8 +16,27 @@ const Modal = (props) => {
     category: '',
     description: '',
   });
+  const [isValid, setisValid] = useState(false)
+
+  function setNumber(number){
+    let a={
+      number
+    }
+    console.log(number)
+    if(number  && isValidPhoneNumber(number) && isPossiblePhoneNumber(number) && (number.charAt(3)=='9' || number.charAt(3)=='8' || number.charAt(3)=='7' || number.charAt(3)=='6' )){
+      setisValid(true)
+    }
+    else{
+      setisValid(false)
+    }
+    setFormInputs({
+      ...formInputs,
+      ...a,
+    });
+  }
 
   function handleChange(evt) {
+    console.log(evt)
     const array = {};
     array[evt.target.name] = evt.target.value;
     setFormInputs({
@@ -44,50 +65,75 @@ const Modal = (props) => {
     console.log("data", data1 + data2);
     if (store === 'need') {
       addNeeds(data1).subscribe((res) => {
-        if (res.status) {
-            console.log('yes');
+        console.log(res)
+        if (res.data) {
+
+          console.log('yes');
+          toast("added successfully...")
+          close()
+
+        }
+        else {
+          toast( res.response? res.response.error : "error")
         }
       });
     }
     if (store === 'supply') {
       addSupply(data2).subscribe((res) => {
-        if (res.status) {
-            console.log('yes');
+        console.log(res)
+        if (res.data) {
+
+          console.log('yes');
+          toast("added successfully...")
+          close()
+
         }
+        else {
+          toast( res.response? res.response.error : "error")
+        }
+
       });
     }
   };
 
   return (
-      <>
-        <div className="modalComponent" onClick={() => close()}></div>
-        <div className="modalSubComponent">
-          <div className="modalArea">
-            <h2>{heading}</h2>
-            <div className="gridArea">
-              <input type="text" placeholder="Enter Your Full Name*" name="name" onChange={(e) => handleChange(e)} />
-              {store === 'need' ? <input type="number" placeholder="Enter Your Age*" name="age" onChange={(e) => handleChange(e)} /> : null}
-            </div>
-            <div className="gridArea">
-              {/* <input type="text" placeholder="Enter Your State*" name="state" onChange={(e) => handleChange(e)} />
+    <>
+      <div className="modalComponent" onClick={() => close()} ></div>
+      <div className="modalSubComponent">
+        <div className="modalArea">
+          <h2>{heading}</h2>
+          <div className="gridArea">
+            <input type="text" placeholder="Enter Your Full Name*" name="name" onChange={(e) => handleChange(e)} />
+            {store === 'need' ? <input type="number" placeholder="Enter Your Age*" name="age" onChange={(e) => handleChange(e)} /> : null}
+          </div>
+          <div className="gridArea">
+            {/* <input type="text" placeholder="Enter Your State*" name="state" onChange={(e) => handleChange(e)} />
               <input type="text" placeholder="Enter Your City*" name="city" onChange={(e) => handleChange(e)} /> */}
-              <SelectBox setState={setCurrentState} state={currentState} text={"Enter your State"} cssClass={"gridAreaBox"} name="state" onChange={handleChange} />
-              <SelectBox setState={setCurrentState} state={currentCity} text={"Enter your City Name"} cssClass={"gridAreaBox"} name="city" onChange={handleChange} />
-            </div>
+            <SelectBox setState={setCurrentState} isArray={true} state={currentState} text={"State"} cssClass={"gridAreaBox"} name="state" onChange={handleChange} />
+            <SelectBox setState={setCurrentState} isArray={true} state={currentCity(formInputs.state)} text={"City"} cssClass={"gridAreaBox"} name="city" onChange={handleChange} />
+          </div>
+          <div className="gridArea">
+            <PhoneInput
+              country="IN"
+              placeholder="Enter phone number"
+              value={formInputs.number}
+              name = "number"
+              onChange={(e) => setNumber(e)} />
+            {/* <input type="Number" placeholder="Enter Your Phone Name*" name="number" onChange={(e) => handleChange(e)} /> */}
+            <SelectBox setState={setState} state={Need} text={"Category"} cssClass={"gridAreaBox"} name="category" onChange={handleChange} />
+          </div>
+          {store === 'need' ? (
             <div className="gridArea">
-              <input type="Number" placeholder="Enter Your Phone Name*" name="number" onChange={(e) => handleChange(e)} />
-              <SelectBox setState={setState} state={Need} text={"Select Category"} cssClass={"gridAreaBox"} name="category" onChange={handleChange} />
+              <textarea type="text" placeholder="Enter Description" name="description" onChange={(e) => handleChange(e)} />
             </div>
-            {store === 'need' ? (
-              <div className="gridArea">
-                <textarea type="text" placeholder="Enter Description" name="description" onChange={(e) => handleChange(e)} />
-              </div>
-            ) : null}
-
-            <button type="submit" className="submitButton" onClick={() => submitForm()}>Submit</button>
+          ) : null}
+          <div style={{ textAlign: 'center' }}>
+            <button style={{ background: "grey" }} className="submitButton" onClick={() => close()}>Close</button>
+            <button disabled={!isValid} type="submit" style={{background: !isValid?"grey":"red"}} className="submitButton" onClick={() => submitForm()}>Submit</button>
           </div>
         </div>
-      </>
+      </div>
+    </>
   )
 }
 

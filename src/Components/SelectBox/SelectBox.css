@@ -1,5 +1,7 @@
 .cityName {
-  width: 15rem;
-  height: 2rem;
+  width: 16rem;
+  height: 4rem;
   outline: none;
+  font-size: 20px;
+
 }

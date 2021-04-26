@@ -13,9 +13,9 @@ const RoutingComponent = (props) => {
     <Suspense fallback={<div></div>}>
       <Router>
         <Switch>
-          <Route exact path="/home" component={Homepage} />
-          <Route exact path="/" render={() => <Redirect to="/home" />} />
-          <Route exact path="/*" render={() => <Redirect to="/home" />} />
+          <Route exact path="/" component={Homepage} />
+          {/* <Route exact path="/" render={() => <Redirect to="/home" />} /> */}
+          <Route exact path="/*" render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
     </Suspense>

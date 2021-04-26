@@ -30,6 +30,16 @@ export const addSupply = (data) => {
 export const getList = (city, category) => {
   const HttpHandler = new Http();
   const baseUrl = new Constants();
+  let url = `${baseUrl.url.base_url}/supply/${city}?category=${category}`
+  
+  return HttpHandler.get(
+    url
+  );
+}
+
+export const getHelp = (city, category) => {
+  const HttpHandler = new Http();
+  const baseUrl = new Constants();
   let url = `${baseUrl.url.base_url}/need/${city}?category=${category}`
   
   return HttpHandler.get(

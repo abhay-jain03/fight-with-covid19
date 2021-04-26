@@ -1,5 +1,7 @@
 import { ajax } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
+import { catchError,  } from 'rxjs/operators';
+import { throwError, fromEvent, of } from 'rxjs';
 
 export class Http {
   send_request(request) {
@@ -8,8 +10,9 @@ export class Http {
         if (res.status === 200 || res.status === 201) {
           return res.response;
         }
-        throw new Error(res);
-      }),
+      }),catchError(error => {
+        console.log('error: ', error);
+        return of(error)}),
     );
   }
 
@@ -29,7 +32,12 @@ export class Http {
       body: data,
       headers,
     };
+    try{
     return this.send_request(request);
+  }
+  catch (e){
+    console.log("dsfs",e)
+  }
   }
 
   put(url, data = {}, headers = {}) {
