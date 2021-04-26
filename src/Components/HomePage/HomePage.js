@@ -9,9 +9,16 @@ import moment from 'moment';
 import { allStates, citiesForState } from 'indian-states-cities'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-99765968-1');
 const HomePage = (props) => {
 
+    useEffect(() => {
+    ReactGA.event({
+        category: 'Landing',
+        action: 'User landed on page'
+      });
+    },[])
     const [getCity, setCity] = useState();
     const [require, setRequire] = useState();
     const [modal, setModal] = useState(false);
@@ -27,7 +34,17 @@ const HomePage = (props) => {
         console.log(citiesForState(currentState), currentState)
         setCities(citiesForState(currentState))
     }, [currentState]);
+
+    
     function submit() {
+        ReactGA.event({
+            category: 'get help',
+            action: 'click on search button',
+            value: {
+                getCity,
+                require
+            }
+        });
         getList(getCity, require).subscribe((res) => {
             if (res) {
                 if (res.data && res.data.length === 0) {
@@ -41,6 +58,16 @@ const HomePage = (props) => {
     }
 
     function help() {
+         
+        ReactGA.event({
+            category: 'give Help',
+            action: 'click on help button',
+            value: {
+                getCity,
+                require
+            }
+        });
+  
         getHelp(getCity, require).subscribe((res) => {
             if (res) {
                 if (res.data && res.data.length === 0) {
@@ -106,6 +133,7 @@ const HomePage = (props) => {
                     heading={store === 'supply' ? 'Please Add Resources which you have' : 'Please give your requirements which you need'}
                     store={store}
                     toast={toast}
+                    ReactGA={ReactGA}
                 />
             ) : null}
             <div className="components">

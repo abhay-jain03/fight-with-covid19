@@ -6,7 +6,7 @@ import PhoneInput from 'react-phone-number-input/input'
 import {isValidPhoneNumber, isPossiblePhoneNumber} from 'react-phone-number-input'
 
 const Modal = (props) => {
-  const { close, setState, state, text, toast, heading, store, currentState, currentCity, setCurrentState, Need } = props;
+  const { close, setState, state, text, ReactGA, toast, heading, store, currentState, currentCity, setCurrentState, Need } = props;
   const [formInputs, setFormInputs] = useState({
     name: '',
     age: '',
@@ -64,6 +64,11 @@ const Modal = (props) => {
     }
     console.log("data", data1 + data2);
     if (store === 'need') {
+      ReactGA.event({
+        category: 'added need',
+        action: 'click on add need',
+        value: data1
+    });
       addNeeds(data1).subscribe((res) => {
         console.log(res)
         if (res.data) {
@@ -79,6 +84,11 @@ const Modal = (props) => {
       });
     }
     if (store === 'supply') {
+      ReactGA.event({
+        category: 'added supply',
+        action: 'click on supply add',
+        value: data2
+    });
       addSupply(data2).subscribe((res) => {
         console.log(res)
         if (res.data) {
